@@ -1,0 +1,26 @@
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+.wp-block-create-block-location-map {
+	border: 1px dotted #f00;
+
+	.location-map-placeholder {
+		padding: 2em;
+		text-align: center;
+		background: #f0f0f0;
+		border: 2px dashed #ccc;
+		border-radius: 4px;
+		margin: 1em 0;
+
+		.components-text-control {
+			margin-bottom: 1em;
+		}
+
+		.components-button {
+			margin-top: 1em;
+		}
+	}
+}
