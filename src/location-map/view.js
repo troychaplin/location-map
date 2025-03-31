@@ -1,25 +1,57 @@
-/**
- * Use this file for JavaScript code that you want to run in the front-end
- * on posts/pages that contain this block.
- *
- * When this file is defined as the value of the `viewScript` property
- * in `block.json` it will be enqueued on the front end of the site.
- *
- * Example:
- *
- * ```js
- * {
- *   "viewScript": "file:./view.js"
- * }
- * ```
- *
- * If you're not making any changes to this file because your project doesn't need any
- * JavaScript running in the front-end, then you should delete this file and remove
- * the `viewScript` property from `block.json`.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-metadata/#view-script
- */
+document.addEventListener('DOMContentLoaded', function() {
+    const mapContainers = document.querySelectorAll('.wp-block-create-block-location-map .location-map-container');
+    
+    if (!mapContainers.length) return;
 
-/* eslint-disable no-console */
-console.log('Hello World! (from create-block-location-map block)');
-/* eslint-enable no-console */
+    // Load Google Maps API
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${locationMapSettings.apiKey}&libraries=places&v=weekly`;
+    script.async = true;
+    script.defer = true;
+    
+    script.onload = function() {
+        mapContainers.forEach(container => {
+            if (!container.dataset.initialized) {
+                const lat = parseFloat(container.dataset.latitude);
+                const lng = parseFloat(container.dataset.longitude);
+
+                if (isNaN(lat) || isNaN(lng)) {
+                    console.error('Invalid coordinates');
+                    return;
+                }
+
+                try {
+                    const map = new google.maps.Map(container, {
+                        center: { lat, lng },
+                        zoom: 12,
+                        mapTypeId: 'roadmap',
+                        disableDefaultUI: false,
+                        zoomControl: true,
+                        streetViewControl: false,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        styles: [
+                            {
+                                featureType: 'poi',
+                                elementType: 'labels',
+                                stylers: [{ visibility: 'off' }]
+                            }
+                        ]
+                    });
+
+                    new google.maps.Marker({
+                        position: { lat, lng },
+                        map: map,
+                        title: 'Selected Location'
+                    });
+
+                    container.dataset.initialized = 'true';
+                } catch (error) {
+                    console.error('Error initializing map:', error);
+                }
+            }
+        });
+    };
+
+    document.head.appendChild(script);
+});
