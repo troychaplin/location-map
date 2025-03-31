@@ -28,7 +28,7 @@ class RegisterBlocks {
 	 * Constructor for the class.
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'create_block_location_map_block_init' ) );
+		add_action( 'init', array( $this, 'location_map_register_block' ) );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class RegisterBlocks {
 	 *
 	 * @return void
 	 */
-	function create_block_location_map_block_init() {
+	function location_map_register_block() {
 		$plugin_path = PluginPaths::plugin_path();
 		$build_path  = $plugin_path . '/build';
 

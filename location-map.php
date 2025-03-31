@@ -34,6 +34,10 @@ define( 'LOCATION_MAP_URL', plugin_dir_url( __FILE__ ) );
 // Include Composer's autoload file.
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
+// Include required files
+// require_once plugin_dir_path( __FILE__ ) . 'src/Settings.php';
+// require_once plugin_dir_path( __FILE__ ) . 'src/RestApi.php';
+
 /**
  * Plugin activation hook.
  */
@@ -63,6 +67,8 @@ function location_map_init() {
 	$core_classes = array(
 		\Location_Map\PluginPaths::class,
 		\Location_Map\RegisterBlocks::class,
+		\Location_Map\RestApi::class,
+		\Location_Map\Settings::class,
 	);
 
 	// Instantiate all classes.
